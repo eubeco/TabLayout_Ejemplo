@@ -18,6 +18,11 @@ class MainActivity : AppCompatActivity() {
 
         val tabLayout = findViewById<TabLayout>(R.id.appbartabs)
 
+    //Para que se cargue el Fragment1 al iniciar la aplicación, ya que al iniciar está seleccionado el TAB1
+        var fragment1: Fragment?  = null
+        fragment1 = Fragment1()
+        supportFragmentManager.beginTransaction().replace(R.id.content_frame, fragment1!!).commit()
+
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             internal var fragmentTransaction = false
             internal var fragment: Fragment? = null
