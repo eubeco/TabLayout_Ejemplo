@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
@@ -15,8 +16,12 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
+        val viewPager = findViewById(R.id.pager) as ViewPager
+        viewPager.adapter = FragmentAdapterPager(supportFragmentManager)
 
-        val tabLayout = findViewById<TabLayout>(R.id.appbartabs)
+        val tabLayout = findViewById(R.id.appbartabs) as TabLayout
+        tabLayout.setupWithViewPager(viewPager)
+
 
     //Para que se cargue el Fragment1 al iniciar la aplicación, ya que al iniciar está seleccionado el TAB1
         var fragment1: Fragment?  = null
