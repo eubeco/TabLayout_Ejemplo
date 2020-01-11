@@ -2,14 +2,10 @@ package com.example.tablayout_ejemplo
 
 import android.content.Context
 import android.database.DataSetObserver
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.ListAdapter
-import android.widget.TextView
+import android.view.*
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ActionMode
 import androidx.recyclerview.widget.RecyclerView
 
 class ImagesAdapter(var items: ArrayList<CardView>) : RecyclerView.Adapter<ImagesAdapter.TarjViewHolder>() {
@@ -18,7 +14,7 @@ class ImagesAdapter(var items: ArrayList<CardView>) : RecyclerView.Adapter<Image
         this.items = items
     }
 
-    class TarjViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class TarjViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnCreateContextMenuListener  {
 
         var imag : ImageView
         var toolcard : androidx.appcompat.widget.Toolbar
@@ -26,7 +22,64 @@ class ImagesAdapter(var items: ArrayList<CardView>) : RecyclerView.Adapter<Image
         init {
             imag = itemView.findViewById(R.id.idtbImage)
             toolcard = itemView.findViewById(R.id.idtbCard)
+            itemView.setOnCreateContextMenuListener(this)
+/*MENÚ ACTION MODE*/
+/*
+            itemView.setOnLongClickListener { view ->
+                (view.context as AppCompatActivity).startSupportActionMode(modeCallBack)
+                return@setOnLongClickListener true
+            }
+*/
+
         }
+        /*MENÚ ACTION MODE*/
+/*
+        var modeCallBack: ActionMode.Callback = object : ActionMode.Callback {
+            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+                val id = item?.itemId
+                when (id) {
+                    R.id.Editar -> {
+                        Toast.makeText(itemView.context, "Editando", Toast.LENGTH_LONG).show()
+                        mode?.finish()
+                    }
+                    R.id.Compartir -> {
+                        Toast.makeText(itemView.context, "Compartiendo", Toast.LENGTH_LONG).show()
+                        mode?.finish()
+                    }
+                    R.id.Eliminar -> {
+                        Toast.makeText(itemView.context, "Eliminando", Toast.LENGTH_LONG).show()
+                        mode?.finish()
+                    }
+                    else -> return false
+                }
+                return false
+            }
+
+            override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
+                return false
+            }
+
+            override fun onDestroyActionMode(mode: ActionMode?) {
+                var mode = mode
+                mode = null
+            }
+
+            override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+                mode.setTitle("Options")
+                mode.getMenuInflater().inflate(R.menu.menu_context_barra, menu)
+                return true
+            }
+        }
+*/
+
+
+
+        override fun onCreateContextMenu(contextMenu: ContextMenu, view: View, contextMenuInfo: ContextMenu.ContextMenuInfo?) {
+            contextMenu.add(0, 0, adapterPosition, "Editar")     //groupId, itemId, order, title
+            contextMenu.add(0, 1, adapterPosition, "Eliminar")
+            contextMenu.add(0, 2, adapterPosition, "Compartir")
+        }
+
 
         fun bindTarjeta(t: CardView) {
             imag.setImageResource(t.card_imagen)
@@ -35,6 +88,10 @@ class ImagesAdapter(var items: ArrayList<CardView>) : RecyclerView.Adapter<Image
             toolcard.title = t.card_nombre
         }
     }
+
+
+
+
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): TarjViewHolder {
         val itemView = LayoutInflater.from(viewGroup.context).inflate(R.layout.list_item, viewGroup, false)
